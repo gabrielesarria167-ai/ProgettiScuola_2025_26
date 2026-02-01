@@ -1,0 +1,10 @@
+classe Studente --> classe Classe --> classe Scuola
+
+Studente ha NOME, COGNOME, ETA, MEDIA
+Classe ha NOME, VETTORE DI STUDENTI
+Scuola ha NOME, VETTORE DI CLASSI
+
+creazione scuola --> creazione classi --> creazione studenti 
+
+inserimento studenti in classi 
+- inserire valore in un vettore, gestire caso classe.size = 0, studente gia in una classe o gia in quella classe
