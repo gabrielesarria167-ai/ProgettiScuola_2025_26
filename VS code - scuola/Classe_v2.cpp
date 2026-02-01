@@ -56,6 +56,44 @@ public:
         }
     }
 };
+Scuola creaScuola()
+// Takes name and return to our school, added security check with a switch case
+{
+    std::string nome;
+    bool verificanome;
+    char opt;
+    while (true)
+    {
+        verificanome = true;
+        std::cout << "\nInserire il nome della scuola: ";
+        std::getline(std::cin, nome);
+        for (auto &c : nome)
+        {
+            c = toupper(c);
+        }
+        std::cout << "\n\nIl nome digitato è: " << nome;
+        while (verificanome)
+        {
+            std::cout << "\nSei sicuro di questa scelta (y/n)? ";
+            std::cin >> opt;
+            opt = tolower(opt);
+            switch (opt)
+            {
+            case 'y':
+                std::cout << "\nNome selezionato con successo.\n";
+                return nome;
+            case 'n':
+                verificanome = false;
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                break;
+            default:
+                std::cout << "\nErrore: scelta nerificanomea. Riprovare.\n";
+            }
+        }
+    }
+}
 int main()
 {
+    Scuola s = creaScuola();
+    s.stampaInfo();
 }
