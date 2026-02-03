@@ -26,7 +26,7 @@ public:
     std::string nomeClasse;
     std::vector<Studente> aulaClasse;
     Classe(std::string nome) : nomeClasse(nome) {};
-    void inserimentoStudente(const Studente s) { aulaClasse.push_back(s); }
+    void inserimentoStudente(const Studente &s) { aulaClasse.push_back(s); }
     void stampaInfo()
     {
         std::cout << "\nNome classe: " << nomeClasse;
@@ -44,7 +44,7 @@ public:
     std::string nomeScuola;
     std::vector<Classe> auleScuola;
     Scuola(std::string nome) : nomeScuola(nome) {};
-    void inserimentoClasse(Classe c) { auleScuola.push_back(c); }
+    void inserimentoClasse(Classe &c) { auleScuola.push_back(c); }
     void stampaInfo()
     {
         std::cout << "\nNome scuola: " << nomeScuola
@@ -139,6 +139,7 @@ Classe creaClasse(Scuola &s)
                         std::cout << "\nCreazione avvenuta con successo.\n";
                         return Classe(name);
                     }
+                    break;
                 case 'n':
                     valid = true;
                     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -161,25 +162,31 @@ Studente creaStudente()
     {
         std::cout << "\nInserisci il nome dello studente: ";
         std::getline(std::cin, nomes);
-        for (auto &c : nomes)
+        if (!nomes.empty())
         {
-            c = tolower(c);
+            for (auto &c : nomes)
+            {
+                c = tolower(c);
+            }
+            nomes[0] = toupper(nomes[0]);
         }
-        nomes[0] = toupper(nomes[0]);
         std::cout << "\nInserisci il cognome dello studente: ";
         std::getline(std::cin, cognomes);
-        for (auto &c : cognomes)
+        if (!cognomes.empty())
         {
-            c = tolower(c);
+            for (auto &c : cognomes)
+            {
+                c = tolower(c);
+            }
+            cognomes[0] = toupper(cognomes[0]);
         }
-        cognomes[0] = toupper(cognomes[0]);
         char opt;
         std::cout << "\nConfermi questi dati : " << nomes << " " << cognomes << " (y/n)? ";
         std::cin >> opt;
         switch (opt)
         {
         case 'y':
-            if (nomes.size() == 0|| cognomes.size() == 0)
+            if (nomes.size() == 0 || cognomes.size() == 0)
             {
                 std::cout << "\nErrore: dati mancanti. Riprovare.\n";
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -212,8 +219,11 @@ Studente creaStudente()
         switch (opt)
         {
         case 'y':
-            if(etas < 6){
-                std::cout<<"\nErrore: eta non valida. Riprovare.\n";
+            if (etas < 6)
+            {
+                std::cout << "\nErrore: eta non valida. Riprovare.\n";
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                break;
             }
             std::cout << "\nDati salvati con successo.\n";
             return {nomes, cognomes, etas, medias};
@@ -228,8 +238,4 @@ Studente creaStudente()
 }
 int main()
 {
-    Scuola s = creaScuola();
-    Classe c = creaClasse(s);
-    s.inserimentoClasse(c);
-    Classe f = creaClasse(s);
 }
