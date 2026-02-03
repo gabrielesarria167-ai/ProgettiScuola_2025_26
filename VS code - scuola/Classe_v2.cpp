@@ -81,13 +81,69 @@ Scuola creaScuola()
             {
             case 'y':
                 std::cout << "\nNome selezionato con successo.\n";
-                return nome;
+                return Scuola(nome);
             case 'n':
                 verificanome = false;
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 break;
             default:
-                std::cout << "\nErrore: scelta nerificanomea. Riprovare.\n";
+                std::cout << "\nErrore: scelta non valida. Riprovare.\n";
+            }
+        }
+    }
+}
+Classe creaClasse(Scuola &s)
+// added class creation. for next time use the method inside the scuola class. dont forget methods
+{
+    while (true)
+    {
+        std::string name;
+        char opt;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "\nInserisci il nome della classe: ";
+        std::getline(std::cin, name);
+        for (auto &c : name)
+        {
+            c = toupper(c);
+        }
+        if (name.size() == 0)
+        {
+            std::cout << "\nErrore: nome non esistente. Riprovare.";
+        }
+        else
+        {
+            bool valid = false;
+            while (!valid)
+            {
+                bool newclass = true;
+                std::cout << "\nIl nome digitato é: " << name;
+                std::cout << "\nSei sicuro di questa scelta (y/n)? ";
+                std::cin >> opt;
+                switch (opt)
+                {
+                case 'y':
+                    for (const auto &i : s.auleScuola)
+                    {
+                        if (i.nomeClasse == name)
+                        {
+                            std::cout << "\nErrore: classe gia esistente. Riprovare.\n";
+                            valid = true;
+                            newclass = false;
+                            break;
+                        }
+                    }
+                    if (newclass)
+                    {
+                        std::cout << "\nCreazione avvenuta con successo.\n";
+                        return Classe(name);
+                    }
+                    break;
+                case 'n':
+                    valid = true;
+                    break;
+                default:
+                    std::cout << "\nErrore: scelta non valida. Riprovare.";
+                }
             }
         }
     }
@@ -95,5 +151,11 @@ Scuola creaScuola()
 int main()
 {
     Scuola s = creaScuola();
+    Classe n = creaClasse(s);
+    s.auleScuola.push_back(n);
+    n.stampaInfo();
+    s.stampaInfo();
+    Classe f = creaClasse(s);
+    s.auleScuola.push_back(f);
     s.stampaInfo();
 }
