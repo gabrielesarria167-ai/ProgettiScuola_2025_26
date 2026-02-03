@@ -58,6 +58,7 @@ public:
 };
 Scuola creaScuola()
 // Takes name and return to our school, added security check with a switch case
+// add security control -> if the name is only numbers, print error
 {
     std::string nome;
     bool verificanome;
@@ -94,12 +95,13 @@ Scuola creaScuola()
 }
 Classe creaClasse(Scuola &s)
 // added class creation. for next time use the method inside the scuola class. dont forget methods
+// one day insert a control for class validity -> if the class has only numbers, print error
 {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     while (true)
     {
         std::string name;
         char opt;
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cout << "\nInserisci il nome della classe: ";
         std::getline(std::cin, name);
         for (auto &c : name)
@@ -137,25 +139,97 @@ Classe creaClasse(Scuola &s)
                         std::cout << "\nCreazione avvenuta con successo.\n";
                         return Classe(name);
                     }
-                    break;
                 case 'n':
                     valid = true;
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     break;
                 default:
-                    std::cout << "\nErrore: scelta non valida. Riprovare.";
+                    std::cout << "\nErrore: scelta non valida. Riprovare.\n";
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 }
             }
+        }
+    }
+}
+Studente creaStudente()
+// one day add option if the student was already part of the school or first time (grades first time are 0)
+{
+    bool valid = false;
+    std::string nomes, cognomes;
+    // name and surname control
+    while (!valid)
+    {
+        std::cout << "\nInserisci il nome dello studente: ";
+        std::getline(std::cin, nomes);
+        for (auto &c : nomes)
+        {
+            c = tolower(c);
+        }
+        nomes[0] = toupper(nomes[0]);
+        std::cout << "\nInserisci il cognome dello studente: ";
+        std::getline(std::cin, cognomes);
+        for (auto &c : cognomes)
+        {
+            c = tolower(c);
+        }
+        cognomes[0] = toupper(cognomes[0]);
+        char opt;
+        std::cout << "\nConfermi questi dati : " << nomes << " " << cognomes << " (y/n)? ";
+        std::cin >> opt;
+        switch (opt)
+        {
+        case 'y':
+            if (nomes.size() == 0|| cognomes.size() == 0)
+            {
+                std::cout << "\nErrore: dati mancanti. Riprovare.\n";
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                break;
+            }
+            std::cout << "\nDati salvati con successo.\n";
+            valid = true;
+            break;
+        case 'n':
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            break;
+        default:
+            std::cout << "\nErrore: opzione invalida. Riprovare.\n";
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    }
+    int etas;
+    double medias;
+    // age and grades control
+    while (true)
+    {
+        char opt;
+        std::cout << "\nInserisci l'eta dello studente: ";
+        std::cin >> etas;
+        std::cout << "\nInserisci la media dello studente: ";
+        std::cin >> medias;
+        std::cout << "\nConfermi questi dati (y/n)?\n"
+                  << "Eta: " << etas << "\nMedia: " << medias << "\n";
+        std::cin >> opt;
+        switch (opt)
+        {
+        case 'y':
+            if(etas < 6){
+                std::cout<<"\nErrore: eta non valida. Riprovare.\n";
+            }
+            std::cout << "\nDati salvati con successo.\n";
+            return {nomes, cognomes, etas, medias};
+        case 'n':
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            break;
+        default:
+            std::cout << "\nErrore: opzione non valida. Riprovare.";
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
 }
 int main()
 {
     Scuola s = creaScuola();
-    Classe n = creaClasse(s);
-    s.auleScuola.push_back(n);
-    n.stampaInfo();
-    s.stampaInfo();
+    Classe c = creaClasse(s);
+    s.inserimentoClasse(c);
     Classe f = creaClasse(s);
-    s.auleScuola.push_back(f);
-    s.stampaInfo();
 }
