@@ -39,3 +39,16 @@ div{
     background-color: rgb(187, 199, 116);
 }
 */
+/* EXERCISE 4 
+.avatar{
+    border-radius: 100px;
+}
+.avatar.proportioned{
+    height: auto;
+    width: 300px;
+} 
+.avatar.distorted{
+    width: 200px;
+    height: 400px;
+}
+*/
