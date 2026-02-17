@@ -1,3 +1,4 @@
+/* Fix The Cascade 
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -40,3 +41,29 @@ div.child {
   font-weight: 800;
   font-size: 14px;
 }
+*/
+/* Margin And Padding 
+body{
+  font-family:'Times New Roman', Times, serif;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.one{
+  background-color: rgb(250,191,203);
+  border: 2px solid black;
+  padding: 32px;
+  margin: 12px;
+}
+.two{
+  background-color:rgb(173,216,229);
+  border: 2px solid black;
+  margin-bottom: 48px;
+}
+.three{
+  background-color: rgb(251, 219, 185);
+  border: 2px solid black;
+  text-align:left;
+  padding: 32px;
+  margin-left:150px;
+}
+*/
